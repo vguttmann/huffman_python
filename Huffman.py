@@ -42,19 +42,29 @@ class BranchNode:
 	def getRightNode(self):
 		return self.rightNode
 
-def getChar(previousPath, curRootNode):
+def getBinary(previousPath, curRootNode, binaryCodeSet):
 	leftNode = curRootNode.getLeftNode()
-	if type(leftNode) = LeafNode:
+	if type(leftNode) is LeafNode:
 		print('{}: {}'.format(leftNode.getChar(), previousPath + '0'))
-
+		binaryCodeSet[leftNode.getChar()] = previousPath + '0'
+	else:
+		binaryCodeSet = getBinary(previousPath + '0', leftNode, binaryCodeSet)
+	
+	rightNode = curRootNode.getRightNode()
+	if type(rightNode) is LeafNode:
+		print('{}: {}'.format(rightNode.getChar(), previousPath + '1'))
+		binaryCodeSet[rightNode.getChar()] = previousPath + '1'
+	else:
+		getBinary(previousPath + '1', rightNode, binaryCodeSet)
+		binaryCodeSet = getBinary(previousPath + '1', rightNode, binaryCodeSet)
+	return binaryCodeSet
 
 
 # This snippet counts the amount of characters,
 # and gives us a dictionary with the amount of characters.
-with open("testfile.txt", "r") as f:
-	line = f.readline()
+with open('testfile.txt', 'r') as f:
 	charset = {}
-	for char in line:
+	for char in f.read():
 		if char in charset.keys():
 			charset[char] +=1
 		else:
@@ -101,7 +111,7 @@ while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([nod
 	lowest.setParent()
 	secondLowest.setParent()
 	
-rootNode = list(filter(lambda c: c.getParent() is False, branchNodeList))
+rootNode = list(filter(lambda c: c.getParent() is False, branchNodeList))[0]
 
 print(rootNode)
 
@@ -109,3 +119,15 @@ print(rootNode)
 # and then explores the right side. I definitely need some way to store the current position
 # in the binary tree to be able to print the binary value of the leaf node.
 # The previous path is passed to the function as an argument
+
+binaryCode = getBinary('', rootNode, {})
+
+print(binaryCode)
+
+with open('testfile.txt', 'r') as f:
+	outstring = ''
+	with open('outfile.txt', 'w') as o:
+		for char in f.read():
+			outstring += binaryCode[char]
+		o.write(outstring)
+			
