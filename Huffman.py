@@ -42,6 +42,13 @@ class BranchNode:
 	def getRightNode(self):
 		return self.rightNode
 
+def getChar(previousPath, curRootNode):
+	leftNode = curRootNode.getLeftNode()
+	if type(leftNode) = LeafNode:
+		print('{}: {}'.format(leftNode.getChar(), previousPath + '0'))
+
+
+
 # This snippet counts the amount of characters,
 # and gives us a dictionary with the amount of characters.
 with open("testfile.txt", "r") as f:
@@ -96,5 +103,9 @@ while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([nod
 	
 rootNode = list(filter(lambda c: c.getParent() is False, branchNodeList))
 
-print(list(rootNode))
-	
+print(rootNode)
+
+# I need some recursive function that first explores the left side of the tree,
+# and then explores the right side. I definitely need some way to store the current position
+# in the binary tree to be able to print the binary value of the leaf node.
+# The previous path is passed to the function as an argument
