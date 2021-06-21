@@ -62,6 +62,7 @@ for key in charset.keys():
 # Here, we get the highest number that a character occurs.
 highest = leafNodeList[0]
 for node in leafNodeList:
+	print('"{0}": {1}'.format(node.getChar(), node.getWeight()))
 	if node.getWeight() > highest.getWeight():
 		highest = node
 
@@ -76,8 +77,6 @@ combinedNodeList = leafNodeList + branchNodeList
 
 lowest = highest
 secondLowest = lowest
-
-print(lowest.getChar())
 
 for node in combinedNodeList:
 	if not node.getParent():
