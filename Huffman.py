@@ -42,14 +42,6 @@ class BranchNode:
 	def getRightNode(self):
 		return self.rightNode
 
-def countNodes():
-	i = 0
-	for node in branchNodeList:
-		if not node.getParent():
-			i += 1
-	if i is 1:
-		return True
-
 # This snippet counts the amount of characters,
 # and gives us a dictionary with the amount of characters.
 with open("testfile.txt", "r") as f:
@@ -74,19 +66,21 @@ for node in leafNodeList:
 		highest = node
 
 branchNodeList = []
-# Here, we set our current lowest occurrence to the highest number,
-# because we decrease that as we iterate through the list,
-# and this is currently our only known value.
 
 # Here, the main tree generation loop starts.
-print(sum([node.getWeight() for node in leafNodeList]))
-while len(leafNodeList) != 0:
+while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([node.getParent() is False for node in branchNodeList]) != 1:
+	
+	print('==============================')
+	print('leafNodeList: {}'.format(sum([node.getParent() is False for node in leafNodeList])))
+	print('branchNodeList: {}'.format(sum([node.getParent() is False for node in branchNodeList])))
 	
 	combinedNodeList = leafNodeList + branchNodeList
 	
-	print(len(branchNodeList))	
-	print(countNodes())
+	print('len(branchNodeList): {}'.format(len(branchNodeList)))
 	
+	# Here, we set our current lowest occurrence to the highest number,
+	# because we decrease that as we iterate through the list,
+	# and this is currently our only known value.
 	lowest = highest
 	secondLowest = lowest
 	
@@ -96,9 +90,7 @@ while len(leafNodeList) != 0:
 				secondLowest = lowest
 				lowest = node
 				
-	branchNodeList.append(BranchNode(lowest, secondLowest)) 
+	branchNodeList.append(BranchNode(lowest, secondLowest))
 	lowest.setParent()
 	secondLowest.setParent()
-	leafNodeList.
-
-print(len(branchNodeList))
+	
