@@ -42,6 +42,13 @@ class BranchNode:
 	def getRightNode(self):
 		return self.rightNode
 
+def countNodes():
+	i = 0
+	for node in branchNodeList:
+		if not node.getParent():
+			i += 1
+	if i is 1:
+		return True
 
 # This snippet counts the amount of characters,
 # and gives us a dictionary with the amount of characters.
@@ -72,23 +79,26 @@ branchNodeList = []
 # and this is currently our only known value.
 
 # Here, the main tree generation loop starts.
- 
-combinedNodeList = leafNodeList + branchNodeList
+print(sum([node.getWeight() for node in leafNodeList]))
+while len(leafNodeList) != 0:
+	
+	combinedNodeList = leafNodeList + branchNodeList
+	
+	print(len(branchNodeList))	
+	print(countNodes())
+	
+	lowest = highest
+	secondLowest = lowest
+	
+	for node in combinedNodeList:
+		if not node.getParent():
+			if node.getWeight() <= lowest.getWeight() or lowest.getParent() or secondLowest.getParent():
+				secondLowest = lowest
+				lowest = node
+				
+	branchNodeList.append(BranchNode(lowest, secondLowest)) 
+	lowest.setParent()
+	secondLowest.setParent()
+	leafNodeList.
 
-lowest = highest
-secondLowest = lowest
-
-for node in combinedNodeList:
-	if not node.getParent():
-		print(node.getChar(), node.getWeight())
-		if node.getWeight() <= lowest.getWeight() or lowest.getParent() or secondLowest.getParent():
-			secondLowest = lowest
-			lowest = node
-			
-branchNodeList.append(BranchNode(lowest, secondLowest))
-lowest.setParent()
-secondLowest.setParent()
-
-for node in branchNodeList:
-	print(node.leftNode.getChar())
-	print(node.rightNode.getChar())
+print(len(branchNodeList))
