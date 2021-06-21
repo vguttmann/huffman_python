@@ -94,3 +94,7 @@ while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([nod
 	lowest.setParent()
 	secondLowest.setParent()
 	
+rootNode = list(filter(lambda c: c.getParent() is False, branchNodeList))
+
+print(list(rootNode))
+	
