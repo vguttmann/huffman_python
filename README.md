@@ -1,2 +1,2 @@
 # huffman_python
-A mediocre python implementation of the huffman algorithm
+A python implementation of the Huffman-algorithm. No idea if this is actually any good, but this is only a proof of concept.
