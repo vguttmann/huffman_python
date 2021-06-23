@@ -2,6 +2,8 @@
 #pylint:disable=C0115
 #pylint:disable=C0103
 # Here, we define the node classes
+import json
+
 class LeafNode:
 	def __init__(self, character, weight):
 		self.character = character
@@ -119,17 +121,20 @@ print(rootNode)
 # and then explores the right side. I definitely need some way to store the current position
 # in the binary tree to be able to print the binary value of the leaf node.
 # The previous path is passed to the function as an argument
-
+print('////////////////////////////////')
 binaryCode = getBinary('', rootNode, {})
-
+print('////////////////////////////////')
 print(binaryCode)
+print('////////////////////////////////')
 
 with open('testfile.txt', 'r') as f:
 	outstring = ''
-	with open('outfile.txt', 'w') as o:
+	with open('outfilebinary.txt', 'w') as o:
 		for char in f.read():
 			outstring += binaryCode[char]
 		o.write(outstring)
 		
+
+
 with open('binarytreefile.txt', 'w') as f:
-	f.write(str(binaryCode))
+	f.write(json.dumps(binaryCode))
