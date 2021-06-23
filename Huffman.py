@@ -130,4 +130,6 @@ with open('testfile.txt', 'r') as f:
 		for char in f.read():
 			outstring += binaryCode[char]
 		o.write(outstring)
-			
+		
+with open('binarytreefile.txt', 'w') as f:
+	f.write(str(binaryCode))
