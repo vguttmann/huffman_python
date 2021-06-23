@@ -1,9 +1,11 @@
 #pylint:disable=C0116
 #pylint:disable=C0115
 #pylint:disable=C0103
-# Here, we define the node classes
+
+# Here, we import the JSON library to export the binary dictionary later on.
 import json
 
+# Here, we define the two node classes.
 class LeafNode:
 	def __init__(self, character, weight):
 		self.character = character
@@ -43,7 +45,8 @@ class BranchNode:
 		
 	def getRightNode(self):
 		return self.rightNode
-
+		
+# The print function for this is broken, but frankly, I can't be bothered debugging that.
 def getBinary(previousPath, curRootNode, binaryCodeSet):
 	leftNode = curRootNode.getLeftNode()
 	if type(leftNode) is LeafNode:
@@ -77,7 +80,8 @@ leafNodeList = []
 for key in charset.keys():
 	leafNodeList.append(LeafNode(key, charset[key]))
 	
-# Here, we get the highest number that a character occurs.
+# Here, we get the highest number that a character occurs so we can use that as a strarting
+# point for finding the lowest number of characters.
 highest = leafNodeList[0]
 for node in leafNodeList:
 	print('"{0}": {1}'.format(node.getChar(), node.getWeight()))
@@ -97,9 +101,9 @@ while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([nod
 	
 	print('len(branchNodeList): {}'.format(len(branchNodeList)))
 	
-	# Here, we set our current lowest occurrence to the highest number,
-	# because we decrease that as we iterate through the list,
-	# and this is currently our only known value.
+# Here, we set our current lowest occurrence to the highest number,
+# because we decrease that as we iterate through the list,
+# and this is currently our only known value.
 	lowest = highest
 	secondLowest = lowest
 	
@@ -109,6 +113,8 @@ while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([nod
 				secondLowest = lowest
 				lowest = node
 				
+# Adding a branched node to their list, and setting both leaf nodes to have parents
+# so they won't be used in further binary tree construction
 	branchNodeList.append(BranchNode(lowest, secondLowest))
 	lowest.setParent()
 	secondLowest.setParent()
@@ -133,8 +139,6 @@ with open('testfile.txt', 'r') as f:
 		for char in f.read():
 			outstring += binaryCode[char]
 		o.write(outstring)
-		
-
 
 with open('binarytreefile.txt', 'w') as f:
 	f.write(json.dumps(binaryCode))
