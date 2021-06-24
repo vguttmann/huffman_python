@@ -139,8 +139,6 @@ while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([nod
 # This filters for the node which doesn't have a parent, which obviously must be our root node.
 rootNode = list(filter(lambda c: c.getParent() is False, branchNodeList))[0]
 
-print(rootNode)
-
 # I need some recursive function that first explores the left side of the tree,
 # and then explores the right side. I definitely need some way to store the current position
 # in the binary tree to be able to print the binary value of the leaf node.
