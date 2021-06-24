@@ -82,7 +82,7 @@ The print function for this is broken, but frankly, I can't be bothered debuggin
 
 # This snippet counts the amount of characters,
 # and gives us a dictionary with the amount of characters.
-with open('testfile.txt', 'r') as f:
+with open('infiletext.txt', 'r') as f:
 	charset = {}
 	for char in f.read():
 		if char in charset.keys():
