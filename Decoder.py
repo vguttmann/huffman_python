@@ -1,6 +1,8 @@
+#pylint:disable=C0103
 import json
 
-# Here, we load the binary dict from our file and parse it into a dictionary with the help of json.loads().
+# Here, we load the binary dict from our file and parse it into a dictionary
+# with the help of json.loads().
 with open('binarytreefile.txt', 'r') as f:
 	binaryCodeUninverted = json.loads(f.read())
 
