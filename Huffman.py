@@ -1,62 +1,77 @@
-#pylint:disable=C0116
-#pylint:disable=C0115
+'This disables pylint warnings for not using snake_case.'
 #pylint:disable=C0103
 
 # Here, we import the JSON library to export the binary dictionary later on.
 import json
 
+
 # Here, we define the two node classes.
+
 class LeafNode:
+	'This is our LeafNode class which stores a character and its associated weight.'
 	def __init__(self, character, weight):
 		self.character = character
 		self.weight = weight
 		self.boolParent = False
-		
+
 	def getWeight(self):
+		'getWeight() returns the weight of the associated character.'
 		return self.weight
-			
+
 	def getChar(self):
+		'getChar() returns the character of this node.'
 		return self.character
-		
+
 	def setParent(self):
+		'setParent() sets this node to have an associated parent node.'
 		self.boolParent = True
-		
+
 	def getParent(self):
+		'getParent() returns whether this node has a Parent or not.'
 		return self.boolParent
-	
-		
+
+
 class BranchNode:
+	'This is our BranchNode class, which will link all the LeafNodes together.'
 	def __init__(self, left, right):
 		self.leftNode = left
 		self.rightNode = right
 		self.boolParent = False
-	
+
 	def getWeight(self):
+		'getWeight() returns the nodes overall weight of the node and its child nodes.'
 		return self.leftNode.getWeight() + self.rightNode.getWeight()
-	
+
 	def setParent(self):
+		'setParent() sets this node to have an associated parent node.'
 		self.boolParent = True
-		
+
 	def getParent(self):
+		'getParent() returns whether this node has a Parent or not.'
 		return self.boolParent
 		
 	def getLeftNode(self):
+		'getLeftNode() returns the left child node.'
 		return self.leftNode
 		
 	def getRightNode(self):
+		'getRightNode() returns the right child node.'
 		return self.rightNode
-		
-# The print function for this is broken, but frankly, I can't be bothered debugging that.
+
+
 def getBinary(previousPath, curRootNode, binaryCodeSet):
+	'''This function explores the binary tree, and in this process extracts the binary values
+for the different characters.
+The print function for this is broken, but frankly, I can't be bothered debugging that.'''
 	leftNode = curRootNode.getLeftNode()
-	if type(leftNode) is LeafNode:
+	if isinstance(leftNode, LeafNode):
 		print('{}: {}'.format(leftNode.getChar(), previousPath + '0'))
 		binaryCodeSet[leftNode.getChar()] = previousPath + '0'
 	else:
 		binaryCodeSet = getBinary(previousPath + '0', leftNode, binaryCodeSet)
 	
 	rightNode = curRootNode.getRightNode()
-	if type(rightNode) is LeafNode:
+	if isinstance(rightNode, LeafNode):
 		print('{}: {}'.format(rightNode.getChar(), previousPath + '1'))
 		binaryCodeSet[rightNode.getChar()] = previousPath + '1'
 	else:
@@ -77,9 +92,9 @@ with open('testfile.txt', 'r') as f:
 
 # Here, we put all characters and their associated weights into LeafNodes.
 leafNodeList = []
-for key in charset.keys():
+for key in charset:
 	leafNodeList.append(LeafNode(key, charset[key]))
-	
+
 # Here, we get the highest number that a character occurs so we can use that as a strarting
 # point for finding the lowest number of characters.
 highest = leafNodeList[0]
@@ -91,6 +106,8 @@ for node in leafNodeList:
 branchNodeList = []
 
 # Here, the main tree generation loop starts.
+# We loop through the tree generation until every node in LeafNodeList has a parent,
+# and the number of BranchNodes without a parent is 1
 while sum([node.getParent() is False for node in leafNodeList]) != 0 or sum([node.getParent() is False for node in branchNodeList]) != 1:
 	
 	print('==============================')
@@ -140,5 +157,6 @@ with open('testfile.txt', 'r') as f:
 			outstring += binaryCode[char]
 		o.write(outstring)
 
+# This bit of code writes our binary dictionary to a second file which makes decoding much easier.
 with open('binarytreefile.txt', 'w') as f:
 	f.write(json.dumps(binaryCode))
